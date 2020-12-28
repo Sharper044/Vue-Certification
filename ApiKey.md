@@ -19,3 +19,5 @@
 
 12. Copy the API key and click the 'DONE' button. (There is an option to restrict the key but that should not be necessary for the scope of this certification project).
 13. While the project is selected, you can access the api key by clicking on the `Credentials` menu link on the left.
+
+AIzaSyCrmoOmzDXuHcGS9qCzvO3JHiXYGKe0AKs
