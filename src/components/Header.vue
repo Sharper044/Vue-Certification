@@ -3,8 +3,8 @@
     <h1>{{ msg }}</h1>
     <nav>
       <router-link to="/">Home</router-link>
-      <router-link to="/favorites">Favorites</router-link>
-      <router-link to="/search">Search</router-link>
+      <router-link v-if="this.$store.state.isAuthenticated" to="/favorites">Favorites</router-link>
+      <router-link v-if="this.$store.state.isAuthenticated" to="/search">Search</router-link>
     </nav>
   </div>
 </template>
