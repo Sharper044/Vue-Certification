@@ -1,6 +1,11 @@
 <template>
-  <div class="hello">
+  <div>
     <h1>{{ msg }}</h1>
+    <nav>
+      <router-link to="/">Home</router-link>
+      <router-link to="/favorites">Favorites</router-link>
+      <router-link to="/search">Search</router-link>
+    </nav>
   </div>
 </template>
 
@@ -28,5 +33,8 @@
   }
   a {
     color: #42b983;
+  }
+  nav a {
+    padding: 20px;
   }
 </style>
