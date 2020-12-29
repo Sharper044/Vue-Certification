@@ -39,6 +39,8 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+  
   export default {
     name: 'Landing',
     data() {
@@ -50,6 +52,7 @@
       }
     },
     methods: {
+      ...mapActions([ 'login' ]),
       validateForm: function () {
         const validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,10}$/;
@@ -67,9 +70,11 @@
         }
 
       },
-      submitForm: function () {
+      submitForm: function (e) {
+        e.preventDefault();
+        this.login();
         setTimeout(() => {this.$router.push("/search")}, 3000);
-      }
+      },
     }
   }
 </script>
