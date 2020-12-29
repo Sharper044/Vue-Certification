@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <Header msg="STG YouTuber"/>
+    <Header msg="STG YouTuber" />
+    <router-view />
   </div>
 </template>
 

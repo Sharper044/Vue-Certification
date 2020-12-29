@@ -1,6 +1,11 @@
 <template>
-  <div class="header">
+  <div>
     <h1>{{ msg }}</h1>
+    <nav>
+      <router-link to="/">Home</router-link>
+      <router-link to="/favorites">Favorites</router-link>
+      <router-link to="/search">Search</router-link>
+    </nav>
   </div>
 </template>
 
@@ -15,10 +20,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .header {
-    width: 100%;
-    background-color: lightcoral;
-  }
   h3 {
     margin: 40px 0 0;
   }
@@ -32,5 +33,8 @@
   }
   a {
     color: #42b983;
+  }
+  nav a {
+    padding: 20px;
   }
 </style>
