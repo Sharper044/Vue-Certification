@@ -19,7 +19,7 @@
           v-model="email"
           type="email"
           name="email"
-          @change="validateForm"
+          @input="validateForm"
         >
       </p>
 
@@ -30,7 +30,7 @@
           v-model="password"
           type="password"
           name="password"
-          @change="validateForm"
+          @input="validateForm"
         >
       </p>
     </form>
@@ -68,8 +68,7 @@
 
       },
       submitForm: function () {
-        // set timeout and then route to search
-
+        setTimeout(() => {this.$router.push("/search")}, 3000);
       }
     }
   }
