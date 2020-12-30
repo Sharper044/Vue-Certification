@@ -6,7 +6,6 @@
       type="text"
       name="search" 
     />
-    <input type="submit" style="display: none" />
     <button type="submit" form="searchBar" value="Submit">Search</button>
   </form>
 </template>

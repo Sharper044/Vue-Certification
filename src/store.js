@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     },
     getSearchResults: async ({commit}, searchString) => {
       try {
-        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${encodeURI(searchString)}&key=AIzaSyCrmoOmzDXuHcGS9qCzvO3JHiXYGKe0AKs`);
+        let result = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURI(searchString)}&key=AIzaSyCrmoOmzDXuHcGS9qCzvO3JHiXYGKe0AKs`);
         commit('setSearchResults', result?.data?.items);
       } catch (e) {
         console.error(e);
