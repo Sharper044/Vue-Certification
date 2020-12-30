@@ -15,10 +15,10 @@
   import { mapActions } from 'vuex';
 
   export default {
-    name: 'Search Bar',
+    name: 'SearchBar',
     data() {
       return {
-        searchString: ""  
+        searchString: ''  
       }
     },
     methods: {
