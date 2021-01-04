@@ -11,8 +11,6 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
-
   export default {
     name: 'SearchBar',
     data() {
@@ -21,12 +19,12 @@
       }
     },
     methods: {
-      ...mapActions([ 'getSearchResults' ]),
       submitSearch: function () {
-        this.getSearchResults(this.searchString);
+        this.onSubmit(this.searchString);
         this.searchString = '';
       }
-    }
+    },
+    props: ['onSubmit']
   }
 </script>
 

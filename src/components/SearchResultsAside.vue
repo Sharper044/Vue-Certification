@@ -1,25 +1,22 @@
 <template>
   <ul class="searchAside">
-    <li v-for="(result, index) in this.searchResults" :key="result.etag" @click="setSelectedVideoIndex(index)">
+    <li v-for="(videoItem, index) in this.videoItems" :key="videoItem.etag" @click="setSelectedVideoIndex(index)">
       <img
-        :src="result.snippet.thumbnails.default.url"
-        :alt="result.snippet.title"
+        :src="videoItem.snippet.thumbnails.default.url"
+        :alt="videoItem.snippet.title"
         height="90px"
         width="120px"
       >
-      <h4>{{ result.snippet.title }}</h4>
-      <p>{{ result.snippet.description }}</p>
+      <h4>{{ videoItem.snippet.title }}</h4>
+      <p>{{ videoItem.snippet.description }}</p>
     </li>
   </ul>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-
   export default {
     name: 'SearchResultsAside',
-    computed: mapState(['searchResults']),
-    props: ['setSelectedVideoIndex']
+    props: ['setSelectedVideoIndex', 'videoItems']
   }
 </script>
 
