@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>Search Page</h3>
-    <SearchBar :onSubmit="this.getSearchResults"/>
+    <SearchBar :onSubmit="this.getSearchResults" :clearSearchOnSubmit="true"/>
     <main>
       <SearchResultsAside :videoItems="this.searchResults" :setSelectedVideoIndex="this.setSelectedVideoIndex"/>
       <VideoPlayer :video="this.searchResults[this.selectedVideoIndex]" v-if="this.searchResults.length"/>

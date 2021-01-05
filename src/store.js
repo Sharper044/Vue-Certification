@@ -10,7 +10,6 @@ const store = new Vuex.Store({
     isAuthenticated: false,
     searchResults: [],
     favoriteVideos: [],
-    favoriteVideoIds: []
   },
   mutations: {
     setIsAuthenticated: (state, payload) => {
@@ -20,13 +19,10 @@ const store = new Vuex.Store({
       state.searchResults = payload;
     },
     setFavoriteVideos: (state, payload) => {
-      state.favoriteVideos = payload;
-    },
-    setFavoriteVideoIds: (state, payload) => {
       if (payload.addFavorite) {
-        state.favoriteVideoIds = [payload.videoId, ...state.favoriteVideoIds];
+        state.favoriteVideos = [state.searchResults.find(video => video.id.videoId === payload.videoId), ...state.favoriteVideos];
       } else {
-        state.favoriteVideoIds = state.favoriteVideoIds.filter(id => id !== payload.videoId);
+        state.favoriteVideos = state.favoriteVideos.filter(video => video.id.videoId !== payload.videoId);
       }
     },
   },
@@ -46,25 +42,11 @@ const store = new Vuex.Store({
       }
     },
     addFavorite: ({commit}, videoId) => {
-      commit('setFavoriteVideoIds', {addFavorite: true, videoId});
+      commit('setFavoriteVideos', {addFavorite: true, videoId});
     },
     removeFavorite: ({commit}, videoId) => {
-      commit('setFavoriteVideoIds', {addFavorite: false, videoId});
+      commit('setFavoriteVideos', {addFavorite: false, videoId});
     },
-    getFavoriteVideos: async ({commit, state}) => {
-      try {
-        let result = await axios.get(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&id=${
-            encodeURI(
-              state.favoriteVideoIds.reduce((idString, id) => idString.length ? idString + ',' + id : id, '')
-            )
-          }&key=AIzaSyCrmoOmzDXuHcGS9qCzvO3JHiXYGKe0AKs`
-        );
-        commit('setFavoriteVideos', result?.data?.items);
-      } catch (e) {
-        console.error(e);
-      }
-    }
   }
 });
 

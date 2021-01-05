@@ -19,12 +19,13 @@
       }
     },
     methods: {
-      submitSearch: function () {
+      submitSearch: function (e) {
+        e.preventDefault();
         this.onSubmit(this.searchString);
-        this.searchString = '';
+        if (this.clearSearchOnSubmit) { this.searchString = ''; }
       }
     },
-    props: ['onSubmit']
+    props: ['onSubmit', 'clearSearchOnSubmit']
   }
 </script>
 

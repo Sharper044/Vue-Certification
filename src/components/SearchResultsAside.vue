@@ -7,6 +7,7 @@
         height="90px"
         width="120px"
       >
+      <Favorited :videoId="videoItem.id.videoId" />
       <h4>{{ videoItem.snippet.title }}</h4>
       <p>{{ videoItem.snippet.description }}</p>
     </li>
@@ -14,8 +15,11 @@
 </template>
 
 <script>
+  import Favorited from './Favorited';
+
   export default {
     name: 'SearchResultsAside',
+    components: { Favorited },
     props: ['setSelectedVideoIndex', 'videoItems']
   }
 </script>
