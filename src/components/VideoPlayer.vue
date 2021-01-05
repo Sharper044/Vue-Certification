@@ -1,26 +1,30 @@
 <template>
-  <div>
-    <div v-if="this.searchResults.length">
-      <youtube 
-        :video-id="this.searchResults[this.selectedVideoIndex].id.videoId" 
-        ref="youtube"
-      />
-      <h1>{{ this.searchResults[this.selectedVideoIndex].snippet.title }}</h1>
-      <p>{{ this.searchResults[this.selectedVideoIndex].snippet.description }}</p>
-    </div>
+  <div class="video-player">
+    <youtube 
+      :video-id="this.video.id.videoId" 
+      ref="youtube"
+    />
+    <h1>{{ this.video.snippet.title }}</h1>
+    <Favorited :videoId="video.id.videoId" class="show-on-hover"/>
+    <p>{{ this.video.snippet.description }}</p>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-
+  import Favorited from './Favorited';
   export default {
     name: 'VideoPlayer',
-    props: ['selectedVideoIndex'],
-    computed: mapState(['searchResults'])
+    components: { Favorited },
+    props: ['video'],
   }
 </script>
 
 <style scoped>
-  
+  .video-player .show-on-hover {
+    display: none;
+  }
+
+  .video-player:hover .show-on-hover {
+    display: inline-block;
+  }
 </style>

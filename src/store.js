@@ -8,7 +8,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     isAuthenticated: false,
-    searchResults: []
+    searchResults: [],
+    favoriteVideos: [],
   },
   mutations: {
     setIsAuthenticated: (state, payload) => {
@@ -16,6 +17,13 @@ const store = new Vuex.Store({
     },
     setSearchResults: (state, payload) => {
       state.searchResults = payload;
+    },
+    setFavoriteVideos: (state, payload) => {
+      if (payload.addFavorite) {
+        state.favoriteVideos = [state.searchResults.find(video => video.id.videoId === payload.videoId), ...state.favoriteVideos];
+      } else {
+        state.favoriteVideos = state.favoriteVideos.filter(video => video.id.videoId !== payload.videoId);
+      }
     },
   },
   actions: {
@@ -32,7 +40,13 @@ const store = new Vuex.Store({
       } catch (e) {
         console.error(e);
       }
-    }
+    },
+    addFavorite: ({commit}, videoId) => {
+      commit('setFavoriteVideos', {addFavorite: true, videoId});
+    },
+    removeFavorite: ({commit}, videoId) => {
+      commit('setFavoriteVideos', {addFavorite: false, videoId});
+    },
   }
 });
 
