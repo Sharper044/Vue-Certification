@@ -1,7 +1,7 @@
 <template>
-  <div class="favorited">
-    <p>Favorited</p>
-    <input type="checkbox" :checked="this.favorited" @change="this.toggleFavorited" />
+  <div class="favorited" @click="this.toggleFavorited">
+    <img v-if="this.favorited" src="@/assets/favorited.png" alt="Video saved in favorites."/>
+    <img v-if="!this.favorited" src="@/assets/not-favorited.png" alt="Save video in favorites."/>
   </div>
 </template>
 
