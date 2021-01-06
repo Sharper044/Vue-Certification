@@ -10,7 +10,9 @@
 
   export default {
     name: 'Favorited',
-    props: ['videoId'],
+    props: {
+      videoId: String
+    },
     computed: {
       ...mapState(['favoriteVideos']),
       favorited: function () {

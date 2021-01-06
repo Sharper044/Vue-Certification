@@ -25,7 +25,10 @@
         if (this.clearSearchOnSubmit) { this.searchString = ''; }
       }
     },
-    props: ['onSubmit', 'clearSearchOnSubmit']
+    props: {
+      onSubmit: Function,
+      clearSearchOnSubmit: Boolean
+    }
   }
 </script>
 

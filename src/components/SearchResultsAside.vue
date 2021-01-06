@@ -20,7 +20,10 @@
   export default {
     name: 'SearchResultsAside',
     components: { Favorited },
-    props: ['setSelectedVideoIndex', 'videoItems']
+    props: {
+      setSelectedVideoIndex: Function,
+      videoItems: Array
+    }
   }
 </script>
 

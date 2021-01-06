@@ -15,7 +15,9 @@
   export default {
     name: 'VideoPlayer',
     components: { Favorited },
-    props: ['video'],
+    props: {
+      video: Object 
+    },
   }
 </script>
 
