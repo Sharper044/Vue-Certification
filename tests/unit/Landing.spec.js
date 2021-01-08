@@ -1,9 +1,12 @@
-// The login button should be disabled until a valid email and valid password have been entered
-// The password should be validated to have at least 1 capital letter, 1 lower case letter, 1 number, and is between 6-10 characters in length.
-// When the login button is submitted an authentication method should be called that will simulate an HTTP call, give an appropriate delay (1500 - 3000 ms), and then redirect the user to the search page.
-
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 import Landing from '@/views/Landing.vue';
+
+const localVue = createLocalVue();
+localVue.use(VueRouter);
+localVue.use(Vuex);
+const router = new VueRouter();
 
 const passwords = {
   invalid: [
@@ -37,7 +40,7 @@ const emails = {
 }
 
 describe('Landing Page', () => {
-  it('should have a way to toggle masking or showing the characters of the password', async () => {
+    it('should have a way to toggle masking or showing the characters of the password', async () => {
     const wrapper = shallowMount(Landing);
     const passwordBox = wrapper.find('#password');
     const togglePasswordBox = wrapper.find('#show-password');
@@ -54,6 +57,31 @@ describe('Landing Page', () => {
 });
 
 describe('Login Button', () => {
+  let actions
+  let store;
+  jest.useFakeTimers();
+
+  beforeEach(() => {
+    actions = {
+      login: jest.fn()
+    }
+    store = new Vuex.Store({
+      actions
+    })
+  });
+
+  it("Redirect should work", async () => {
+    const wrapper = shallowMount(Landing, {
+      localVue,
+      store,
+      router
+    });
+
+    wrapper.vm.simulateAuthenticated();
+    expect(actions.login).toHaveBeenCalled();
+    expect(window.location.href).toBe('http://localhost/#/search');
+  });
+
   it('should be disabled until a valid email and valid password have been entered', () => {
     const wrapper = shallowMount(Landing);
     const emailBox = wrapper.find('#email');
@@ -88,6 +116,29 @@ describe('Login Button', () => {
         expect(wrapper.vm.$data.disabled).toBe(false);
       });
     })
+  });
 
-  })
+  it("should, when pressed, give an appropriate delay (1500 - 3000 ms), and then redirect the user to the search page", () => {
+    const wrapper = shallowMount(Landing);
+    const emailBox = wrapper.find('#email');
+    const passwordBox = wrapper.find('#password');
+    const loginButton = wrapper.find('button');
+
+    emailBox.setValue(emails.valid[0]);
+    passwordBox.setValue(passwords.valid[0]);
+    loginButton.trigger('click');
+
+    jest.advanceTimersByTime(1501);
+    
+    expect(window.location.href).toBe('http://localhost/#/search');
+  });
+
+  it("should, when pressed, give an appropriate delay (1500 - 3000 ms), and then redirect the user to the search page", () => {
+    const wrapper = shallowMount(Landing);
+
+    wrapper.setData({ email: emails.valid[0], password: passwords.valid[0] })
+    wrapper.vm.submitForm({ preventDefault: jest.fn });
+    
+    expect(window.location.href).toBe('http://localhost/#/search');
+  });
 });

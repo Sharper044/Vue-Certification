@@ -3,14 +3,14 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/App.vue</title>
+    <title>Code coverage report for src/components/SearchResultsAside.vue</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -18,7 +18,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">src</a> App.vue</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/components</a> SearchResultsAside.vue</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -83,7 +83,21 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -91,7 +105,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -111,33 +139,47 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-  &lt;div id="app"&gt;
-    &lt;Header /&gt;
-    &lt;router-view /&gt;
-  &lt;/div&gt;
+  &lt;ul class="search-aside"&gt;
+    &lt;li v-for="(videoItem, index) in this.videoItems" :key="videoItem.etag" @click="setSelectedVideoIndex(index)"&gt;
+      &lt;img
+        :src="videoItem.snippet.thumbnails.default.url"
+        :alt="videoItem.snippet.title"
+        height="90px"
+        width="120px"
+      &gt;
+      &lt;Favorited class="show-on-hover" :videoId="videoItem.id.videoId" /&gt;
+      &lt;h4&gt;{{ videoItem.snippet.title }}&lt;/h4&gt;
+      &lt;p&gt;{{ videoItem.snippet.description }}&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
 &lt;/template&gt;
 &nbsp;
 &lt;script&gt;
-  import Header from './components/Header.vue'
+  import Favorited from './Favorited';
 &nbsp;
   export default {
-    name: 'App',
-    components: {
-      Header
+    name: 'SearchResultsAside',
+    components: { Favorited },
+    props: {
+      setSelectedVideoIndex: Function,
+      videoItems: Array
     }
   }
 &lt;/script&gt;
 &nbsp;
-&lt;style&gt;
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+&lt;style scoped&gt;
+  .search-aside {
+    width: 200px;
   }
-&lt;/style&gt;
-&nbsp;</pre></td></tr></table></pre>
+  
+  li .show-on-hover {
+    display: none;
+  }
+&nbsp;
+  li:hover .show-on-hover {
+    display: inline-block;
+  }
+&lt;/style&gt;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
@@ -147,14 +189,14 @@
                 at Fri Jan 08 2021 15:40:30 GMT-0700 (Mountain Standard Time)
             </div>
         </div>
-        <script src="../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

@@ -1,15 +1,160 @@
-// The following components will be contained on the search page:
-// Search bar
-// Main view component with youtube video, title and description
-// Sidebar with search results
+import { mount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import Search from '@/views/Search.vue';
+import SearchBar from '@/components/SearchBar.vue'
+import store from '@/store.js';
+import mockSearchResults from '../mocks/mockSearchResults';
 
-// Create a search bar where a user can input any search string. The input should search on either the enter/return key press or by clicking on a search icon at the end of the search input.
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
-// When a search is initiated an HTTP request should be made to the Youtube API to retrieve the first 10 search results for the submitted query string (You will probably want to use Axios to make this HTTP request).
+describe('Search', () => {
+  it('Includes the Search bar component', () => {
+    const wrapper = mount(Search, { localVue, store });
+    expect(wrapper.html()).toContain("search-bar");
+  });
 
-// The search results should be displayed in a sidebar (which can be displayed on either side of the screen). The results should display a thumbnail of the video, a video title and a short video description.
+  it('Includes the search-aside component', () => {
+    const wrapper = mount(Search, { localVue, store });
+    expect(wrapper.html()).toContain("search-aside");
+  });
 
-// The main section of the screen should have the first video of the search results displayed. Under the video player should be the video title and the full video description.
+  it('Includes the video-player component when there are search results', async () => {
+    const wrapper = mount(
+      Search, 
+      { 
+        localVue, 
+        stubs: { 
+          youtube: true 
+        }, 
+        store: { 
+          state: { 
+            searchResults: mockSearchResults, 
+            isAuthenticated: true, 
+            favoriteVideos: [] 
+          }
+        } 
+      }
+    );
+   
+    expect(wrapper.html()).toContain('video-player');
+  });
 
-// When any video is selected (clicked) in the results sidebar, that video should then be displayed in the main section with the video's title and description.
+  it('Should have a search bar where a user can input any search string.', () => {
+    const wrapper = mount(SearchBar);
+    const searchBar = wrapper.find('#search');
 
+    searchBar.setValue('Narnia');
+
+    expect(wrapper.vm.$data.searchString).toEqual('Narnia');
+  });
+
+  it('Should switch which video is selected when one of the other searched videos is clicked.', async () => {
+    const wrapper = mount(
+      Search, 
+      { 
+        localVue, 
+        stubs: { 
+          youtube: true 
+        }, 
+        store: { 
+          state: { 
+            searchResults: mockSearchResults, 
+            isAuthenticated: true, 
+            favoriteVideos: [] 
+          }
+        } 
+      }
+    );
+    const searchedVideos = wrapper.findAll('li');
+
+    expect(wrapper.vm.$data.selectedVideoIndex).toBe(0);
+
+    await searchedVideos.at(5).trigger('click');
+
+    expect(wrapper.vm.$data.selectedVideoIndex).toBe(5);
+
+  })
+});
+
+describe('Search Bar Component', () => {
+  it('should prevent default, call the passed in submit function and clear itself when submitted.', async () => {
+    const onSubmit = jest.fn();
+    const wrapper = mount(SearchBar, { propsData: { onSubmit, clearSearchOnSubmit: true }});
+    const searchBar = wrapper.find('#search');
+
+    searchBar.setValue('Narnia');
+    await wrapper.find('button').trigger('click')
+
+    expect(onSubmit).toHaveBeenCalledWith('Narnia');
+    expect(wrapper.vm.$data.searchString).toEqual('');
+  });
+
+  it('should prevent default, call the passed in submit function and not clear itself when submitted.', async () => {
+    const onSubmit = jest.fn();
+    const wrapper = mount(SearchBar, { propsData: { onSubmit, clearSearchOnSubmit: false }});
+    const searchBar = wrapper.find('#search');
+
+    searchBar.setValue('Narnia');
+    await wrapper.find('button').trigger('click')
+
+    expect(onSubmit).toHaveBeenCalledWith('Narnia');
+    expect(wrapper.vm.$data.searchString).toEqual('Narnia');
+  });
+});
+
+describe('favoriting', () => {
+  it('should remove a favorite when a favorited heart is clicked', async () => {
+    const actions = {
+      addFavorite: jest.fn(),
+      removeFavorite: jest.fn()
+    };
+    const wrapper = mount(
+      Search, 
+      { 
+        localVue, 
+        stubs: { 
+          youtube: true 
+        }, 
+        store: { 
+          actions,
+          state: { 
+            searchResults: mockSearchResults, 
+            isAuthenticated: true, 
+            favoriteVideos: [ mockSearchResults[0] ] 
+          }
+        } 
+      }
+    );
+    const favoriteHearts = wrapper.findAll('.favorited');
+
+    await favoriteHearts.at(0).trigger('click');
+  });
+
+  it('should add a favorite when a non-favorited heart is clicked', async () => {
+    const actions = {
+      addFavorite: jest.fn(),
+      removeFavorite: jest.fn()
+    };
+    const wrapper = mount(
+      Search, 
+      { 
+        localVue, 
+        stubs: { 
+          youtube: true 
+        }, 
+        store: { 
+          actions,
+          state: { 
+            searchResults: mockSearchResults, 
+            isAuthenticated: true, 
+            favoriteVideos: [ mockSearchResults[0] ] 
+          }
+        } 
+      }
+    );
+    const favoriteHearts = wrapper.findAll('.favorited');
+
+    await favoriteHearts.at(1).trigger('click');
+  });
+});

@@ -81,12 +81,12 @@
       submitForm: function (e) {
         e.preventDefault();
         setTimeout(() => {
-          this.login();
-          this.$router.push("/search")
+          this.simulateAuthenticated();
         }, 1500);
       },
-      togglePasswordReveal: function () {
-        this.showPassword = !this.showPassword;
+      simulateAuthenticated: function () {
+        this.login();
+        this.$router.push("/search");
       }
     }
   }
