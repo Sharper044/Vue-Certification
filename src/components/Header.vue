@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ msg }}</h1>
+    <h1>STG YouTuber</h1>
     <nav>
       <router-link to="/">Home</router-link>
       <router-link v-if="this.$store.state.isAuthenticated" to="/favorites">Favorites</router-link>
@@ -11,10 +11,7 @@
 
 <script>
   export default {
-    name: 'Header',
-    props: {
-      msg: String
-    }
+    name: 'Header'
   }
 </script>
 

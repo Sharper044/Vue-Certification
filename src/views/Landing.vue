@@ -5,15 +5,14 @@
       id="loginForm"
       @submit="submitForm"
     >
-      <p v-if="errors.length">
+      <p v-if="errors.length" class="errors ">
         <b>Please correct the following error(s):</b>
         <ul>
           <li v-for="error in errors" :key="error">{{ error }}</li>
         </ul>
       </p>
-
       <p>
-        <label for="email">Email</label>
+        <label for="email">Email: </label>
         <input
           id="email"
           v-model="email"
@@ -22,15 +21,23 @@
           @input="validateForm"
         >
       </p>
-
       <p>
-        <label for="password">Password</label>
+        <label for="password">Password: </label>
         <input
           id="password"
           v-model="password"
-          type="password"
+          :type="this.showPassword ? 'text' : 'password'"
           name="password"
           @input="validateForm"
+        >
+      </p>
+      <p>
+        <label for="show-password">Show Password</label>
+        <input
+          id="show-password"
+          v-model="showPassword"
+          type="checkbox"
+          name="show-password"
         >
       </p>
     </form>
@@ -48,7 +55,8 @@
         errors: [],
         email: "",
         password: "",
-        disabled: true
+        disabled: true,
+        showPassword: false
       }
     },
     methods: {
@@ -72,9 +80,14 @@
       },
       submitForm: function (e) {
         e.preventDefault();
-        this.login();
-        setTimeout(() => {this.$router.push("/search")}, 3000);
+        setTimeout(() => {
+          this.simulateAuthenticated();
+        }, 1500);
       },
+      simulateAuthenticated: function () {
+        this.login();
+        this.$router.push("/search");
+      }
     }
   }
 </script>

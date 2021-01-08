@@ -1,13 +1,13 @@
 <template>
-  <form id="searchBar" @submit="submitSearch">
+  <div class="search-bar">
     <input
       id="search"
       v-model="searchString"
       type="text"
       name="search" 
     />
-    <button type="submit" form="searchBar" value="Submit">Search</button>
-  </form>
+    <button @click="submit">Search</button>
+  </div>
 </template>
 
 <script>
@@ -19,13 +19,16 @@
       }
     },
     methods: {
-      submitSearch: function (e) {
+      submit: function (e) {
         e.preventDefault();
         this.onSubmit(this.searchString);
         if (this.clearSearchOnSubmit) { this.searchString = ''; }
       }
     },
-    props: ['onSubmit', 'clearSearchOnSubmit']
+    props: {
+      onSubmit: Function,
+      clearSearchOnSubmit: Boolean
+    }
   }
 </script>
 

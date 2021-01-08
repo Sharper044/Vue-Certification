@@ -4,11 +4,11 @@
     <SearchBar :onSubmit="this.filterFavorites"/>
     <div class="sort-buttons">
       <p>Sort favorites by: </p>
-      <button @click="setSort('titleDecending')">Title (A->Z)</button>
-      <button @click="setSort('titleAcending')">Title (Z->A)</button>
-      <button @click="setSort('dateDecending')">Date Added (Newest First)</button>
-      <button @click="setSort('dateAcending')">Date Added (Oldest First)</button>
-      <button @click="setSort('none')">Most recently favorited</button>
+      <button class="sort-button" @click="setSort('titleDescending')">Title (A->Z)</button>
+      <button class="sort-button" @click="setSort('titleAscending')">Title (Z->A)</button>
+      <button class="sort-button" @click="setSort('dateDescending')">Date Added (Newest First)</button>
+      <button class="sort-button" @click="setSort('dateAscending')">Date Added (Oldest First)</button>
+      <button class="sort-button" @click="setSort('none')">Most recently favorited</button>
     </div>
     <main v-if="this.filteredFavoritesVideos.length">
       <SearchResultsAside :videoItems="this.filteredFavoritesVideos" :setSelectedVideoIndex="this.setSelectedVideoIndex"/>
@@ -24,29 +24,45 @@
   import SearchResultsAside from '../components/SearchResultsAside';
   import VideoPlayer from '../components/VideoPlayer';
 
-  const sortFunctions = {
-    titleDecending(vidA, vidB) {
+  export const sortFunctions = {
+    titleDescending(vidA, vidB) {
       return vidA.snippet.title < vidB.snippet.title ? 
         -1 : 
         vidA.snippet.title > vidB.snippet.title ?
           1 :
           0;
     },
-    titleAcending(vidA, vidB) {
+    titleAscending(vidA, vidB) {
       return vidA.snippet.title > vidB.snippet.title ? 
         -1 : 
         vidA.snippet.title < vidB.snippet.title ?
           1 :
           0;
     },
-    dateDecending(vidA, vidB) {
+    dateDescending(vidA, vidB) {
       return new Date(vidB.snippet.publishedAt) - new Date(vidA.snippet.publishedAt);
     },
-    dateAcending(vidA, vidB) {
+    dateAscending(vidA, vidB) {
       return new Date(vidA.snippet.publishedAt) - new Date(vidB.snippet.publishedAt);
     },
     none: null
   }
+
+  export const filterAndSortVideos = (state, filterString, sortFunction) => {
+    let videos = [...state.favoriteVideos];
+
+        if (filterString.length !== 0) {
+          videos = videos.filter(
+            video => video.snippet.title.toLowerCase().includes(filterString.toLowerCase()) || video.snippet.description.toLowerCase().includes(filterString.toLowerCase())
+          )
+        }
+
+        if (sortFunction) {
+          videos.sort(sortFunction);
+        }
+
+        return videos;
+  };
 
   export default {
     name: 'Favorites',
@@ -56,20 +72,8 @@
       VideoPlayer
     },
     computed: mapState({
-      filteredFavoritesVideos (state) {
-        let videos = [...state.favoriteVideos];
-
-        if (this.filterString.length !== 0) {
-          videos = videos.filter(
-            video => video.snippet.title.includes(this.filterString) || video.snippet.description.includes(this.filterString)
-          )
-        }
-
-        if (this.sortFunction) {
-          videos.sort(this.sortFunction);
-        }
-
-        return videos;
+      filteredFavoritesVideos: function (state) {
+        return filterAndSortVideos(state, this.filterString, this.sortFunction)
       }
     }),
     data() {
