@@ -1,6 +1,8 @@
+// This is a #component even though it is a larger view
 <template>
   <div>
     <h3>Favorites Page</h3>
+    <!-- #this keyword - the local instance, defaulting to window, but in vue componets (since they are class based) referes to the componet. -->
     <SearchBar :onSubmit="this.filterFavorites"/>
     <div class="sort-buttons">
       <p>Sort favorites by: </p>
@@ -24,6 +26,7 @@
   import SearchResultsAside from '../components/SearchResultsAside';
   import VideoPlayer from '../components/VideoPlayer';
 
+  // #block scoped const
   export const sortFunctions = {
     titleDescending(vidA, vidB) {
       return vidA.snippet.title < vidB.snippet.title ? 
@@ -49,9 +52,11 @@
   }
 
   export const filterAndSortVideos = (state, filterString, sortFunction) => {
+    // #block scoped let
     let videos = [...state.favoriteVideos];
 
         if (filterString.length !== 0) {
+          // #filter
           videos = videos.filter(
             video => video.snippet.title.toLowerCase().includes(filterString.toLowerCase()) || video.snippet.description.toLowerCase().includes(filterString.toLowerCase())
           )
@@ -76,6 +81,7 @@
         return filterAndSortVideos(state, this.filterString, this.sortFunction)
       }
     }),
+    // #reactive data object. This object is directly connected to the value in the template from v-bind or :.
     data() {
       return {
         selectedVideoIndex: 0,

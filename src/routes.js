@@ -4,6 +4,7 @@ import Landing from './views/Landing.vue';
 import NotFound from './views/NotFound.vue';
 import Search from './views/Search.vue';
 
+// #routing
 export default [
   { 
     path: '/', 
@@ -14,6 +15,7 @@ export default [
     path: '/favorites', 
     name: 'Favorites', 
     component: Favorites,
+    // #arrow function
     beforeEnter: (to, from, next) => {
       if (store.state.isAuthenticated) {
         next();

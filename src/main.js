@@ -9,6 +9,7 @@ Vue.use(VueYoutube);
 Vue.config.productionTip = false;
 
 new Vue({
+  // #arrow function
   render: h => h(App),
   router,
   store,
