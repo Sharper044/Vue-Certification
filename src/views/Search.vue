@@ -27,6 +27,7 @@
         selectedVideoIndex: 0
       }
     },
+    // #Actions, Reducers and the Store
     computed: mapState(['searchResults']),
     methods: {
       ...mapActions([ 'getSearchResults' ]),

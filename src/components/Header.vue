@@ -2,6 +2,7 @@
   <div>
     <h1>STG YouTuber</h1>
     <nav>
+      <!-- #routeing -->
       <router-link to="/">Home</router-link>
       <router-link v-if="this.$store.state.isAuthenticated" to="/favorites">Favorites</router-link>
       <router-link v-if="this.$store.state.isAuthenticated" to="/search">Search</router-link>
@@ -15,7 +16,8 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- #styles Add "scoped" attribute to limit CSS to this component only -->
+<!-- #styles Other ways include importing a css file, or a css preprocessor but was not done in this project -->
 <style scoped>
   h3 {
     margin: 40px 0 0;

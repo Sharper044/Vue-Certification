@@ -8,6 +8,7 @@
       <p v-if="errors.length" class="errors ">
         <b>Please correct the following error(s):</b>
         <ul>
+          <!-- #lists and keys -->
           <li v-for="error in errors" :key="error">{{ error }}</li>
         </ul>
       </p>
@@ -86,6 +87,7 @@
       },
       simulateAuthenticated: function () {
         this.login();
+        // #routing
         this.$router.push("/search");
       }
     }

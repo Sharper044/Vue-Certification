@@ -1,5 +1,6 @@
 <template>
   <ul class="search-aside">
+    <!-- #vue directives #lists and keys -->
     <li v-for="(videoItem, index) in this.videoItems" :key="videoItem.etag" @click="setSelectedVideoIndex(index)">
       <img
         :src="videoItem.snippet.thumbnails.default.url"
@@ -36,6 +37,7 @@
     display: none;
   }
 
+  /* #event handling via css */
   li:hover .show-on-hover {
     display: inline-block;
   }

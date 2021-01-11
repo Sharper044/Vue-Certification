@@ -7,6 +7,7 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('Search', () => {
+  // #block scoped let
   let actions;
   let state;
   let store;
@@ -100,6 +101,7 @@ describe('Search', () => {
 
     expect(wrapper.vm.$data.selectedVideoIndex).toBe(0);
 
+    // #promises using async/await
     await videos.at(2).trigger('click');
 
     expect(wrapper.vm.$data.selectedVideoIndex).toBe(2);

@@ -5,6 +5,8 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
+// #block scoped const
+// #Actions, Reducers and the Store
 const store = new Vuex.Store({
   state: {
     isAuthenticated: false,
@@ -20,13 +22,16 @@ const store = new Vuex.Store({
     },
     setFavoriteVideos: (state, payload) => {
       if (payload.addFavorite) {
+        // #spread operator
         state.favoriteVideos = [state.searchResults.find(video => video.id.videoId === payload.videoId), ...state.favoriteVideos];
       } else {
+        // #filter
         state.favoriteVideos = state.favoriteVideos.filter(video => video.id.videoId !== payload.videoId);
       }
     },
   },
   actions: {
+    // #destructuring
     login: ({commit}) => {
       commit('setIsAuthenticated', true);
     },
@@ -35,6 +40,7 @@ const store = new Vuex.Store({
     },
     getSearchResults: async ({commit}, searchString) => {
       try {
+        // #promises using async/await
         let result = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURI(searchString)}&key=AIzaSyCrmoOmzDXuHcGS9qCzvO3JHiXYGKe0AKs`);
         commit('setSearchResults', result?.data?.items);
       } catch (e) {
