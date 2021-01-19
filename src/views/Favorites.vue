@@ -10,6 +10,8 @@
       <button class="sort-button" @click="setSort('titleAscending')">Title (Z->A)</button>
       <button class="sort-button" @click="setSort('dateDescending')">Date Added (Newest First)</button>
       <button class="sort-button" @click="setSort('dateAscending')">Date Added (Oldest First)</button>
+      <button class="sort-button" @click="setSort('lengthDescending')">Length (Shortest First)</button>
+      <button class="sort-button" @click="setSort('lengthAscending')">Length (Longest First)</button>
       <button class="sort-button" @click="setSort('none')">Most recently favorited</button>
     </div>
     <main v-if="this.filteredFavoritesVideos.length">
@@ -41,6 +43,12 @@
         vidA.snippet.title < vidB.snippet.title ?
           1 :
           0;
+    },
+    lengthDescending(vidA, vidB) {
+      return vidA.duration - vidB.duration;
+    },
+    lengthAscending(vidA, vidB) {
+      return vidB.duration - vidA.duration;
     },
     dateDescending(vidA, vidB) {
       return new Date(vidB.snippet.publishedAt) - new Date(vidA.snippet.publishedAt);

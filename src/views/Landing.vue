@@ -3,7 +3,7 @@
     <h3>Landing Page</h3>
     <form
       id="loginForm"
-      @submit="submitForm"
+      @submit.prevent="submitForm"
     >
       <p v-if="errors.length" class="errors ">
         <b>Please correct the following error(s):</b>
@@ -79,8 +79,7 @@
         }
 
       },
-      submitForm: function (e) {
-        e.preventDefault();
+      submitForm: function () {
         setTimeout(() => {
           this.simulateAuthenticated();
         }, 1500);
