@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import 'es6-promise/auto';
 import axios from 'axios';
+import moment from 'moment';
 
 Vue.use(Vuex);
+
+const processDuration = (duration) => moment.duration(duration).asMilliseconds();
 
 // #block scoped const
 // #Actions, Reducers and the Store
@@ -20,10 +22,18 @@ const store = new Vuex.Store({
     setSearchResults: (state, payload) => {
       state.searchResults = payload;
     },
-    setFavoriteVideos: (state, payload) => {
+    setFavoriteVideos: async (state, payload) => {
       if (payload.addFavorite) {
+        let result = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${payload.videoId}&part=contentDetails&key=AIzaSyCrmoOmzDXuHcGS9qCzvO3JHiXYGKe0AKs`)
+        console.log(result);
         // #spread operator
-        state.favoriteVideos = [state.searchResults.find(video => video.id.videoId === payload.videoId), ...state.favoriteVideos];
+        state.favoriteVideos = [
+          {
+            ...state.searchResults.find(video => video.id.videoId === payload.videoId), 
+            duration: processDuration(result.data.items[0].contentDetails.duration)
+          }, 
+          ...state.favoriteVideos
+        ];
       } else {
         // #filter
         state.favoriteVideos = state.favoriteVideos.filter(video => video.id.videoId !== payload.videoId);

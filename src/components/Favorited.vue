@@ -4,7 +4,7 @@
   <div class="favorited" @click="this.toggleFavorited">
     <!-- #vue directives -->
     <img v-if="this.favorited" src="@/assets/favorited.png" alt="Video saved in favorites."/>
-    <img v-if="!this.favorited" src="@/assets/not-favorited.png" alt="Save video in favorites."/>
+    <img v-else src="@/assets/not-favorited.png" alt="Save video in favorites."/>
   </div>
 </template>
 

@@ -134,6 +134,10 @@ describe('Search', () => {
     await buttons.at(3).trigger('click');
     expect(wrapper.vm.$data.sortFunction).toEqual(sortFunctions.dateAscending);
     await buttons.at(4).trigger('click');
+    expect(wrapper.vm.$data.sortFunction).toEqual(sortFunctions.lengthDescending);
+    await buttons.at(5).trigger('click');
+    expect(wrapper.vm.$data.sortFunction).toEqual(sortFunctions.lengthAscending);
+    await buttons.at(6).trigger('click');
     expect(wrapper.vm.$data.sortFunction).toBeNull();
   });
 
@@ -222,7 +226,7 @@ describe('Filter and Sort Videos Function', () => {
 });
 
 describe('Sort Functions', () => {
-  const testData = [mockSearchResults[0], mockSearchResults[1], mockSearchResults[2]];
+  const testData = [{duration: 18001000, ...mockSearchResults[0]}, {duration: 18001000 * 2,...mockSearchResults[1]}, {duration: 18001, ...mockSearchResults[2]}];
   it('correctly sorts by title descending', () => {
     let sorted = [...testData].sort(sortFunctions.titleDescending);
 
@@ -252,6 +256,22 @@ describe('Sort Functions', () => {
 
     expect(sorted[0].id.videoId).toEqual(testData[0].id.videoId);
     expect(sorted[1].id.videoId).toEqual(testData[1].id.videoId);
+    expect(sorted[2].id.videoId).toEqual(testData[2].id.videoId);  
+  });
+
+  it('correctly sorts by date ascending', () => {
+    let sorted = [...testData].sort(sortFunctions.lengthDescending);
+
+    expect(sorted[0].id.videoId).toEqual(testData[2].id.videoId);
+    expect(sorted[1].id.videoId).toEqual(testData[0].id.videoId);
+    expect(sorted[2].id.videoId).toEqual(testData[1].id.videoId);  
+  });
+
+  it('correctly sorts by date ascending', () => {
+    let sorted = [...testData].sort(sortFunctions.lengthAscending);
+
+    expect(sorted[0].id.videoId).toEqual(testData[1].id.videoId);
+    expect(sorted[1].id.videoId).toEqual(testData[0].id.videoId);
     expect(sorted[2].id.videoId).toEqual(testData[2].id.videoId);  
   });
 });
